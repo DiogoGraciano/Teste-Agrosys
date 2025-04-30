@@ -1,0 +1,38 @@
+INSTRUÇÕES PARA EXECUÇÃO DO PROJETO
+
+1. REQUISITOS
+   - Navegador web moderno (Chrome, Firefox, Edge, etc.)
+   - Servidor web local (como XAMPP, WAMP, etc.)
+
+2. INSTALAÇÃO
+   - Extraia todos os arquivos do projeto para uma pasta dentro do diretório do seu servidor web
+   - Certifique-se de que todos os arquivos estejam na mesma estrutura de pastas:
+     * index.html
+     * clients.html
+     * addresses.html
+     * css/style.css
+     * js/database.js
+     * js/login.js
+     * js/clients.js
+     * js/addresses.js
+
+3. EXECUÇÃO
+   - Inicie seu servidor web local
+   - Abra o navegador e acesse o endereço local do projeto (ex: http://localhost/nome-da-pasta)
+   - A aplicação será carregada automaticamente
+
+4. USO INICIAL
+   - Na primeira execução, crie um usuário através do botão "Cadastrar" na tela de login
+   - Após criar o usuário, faça login com as credenciais cadastradas
+   - Você será redirecionado para a tela de clientes
+
+5. FUNCIONALIDADES
+   - Cadastro e gerenciamento de clientes
+   - Cadastro e gerenciamento de endereços
+   - Exportação e importação do banco de dados
+   - Interface responsiva para dispositivos móveis
+
+6. OBSERVAÇÕES
+   - O banco de dados é armazenado localmente no navegador
+   - Para preservar os dados, utilize a função de exportação antes de fechar o navegador
+   - Para restaurar dados, utilize a função de importação na tela de configurações 
