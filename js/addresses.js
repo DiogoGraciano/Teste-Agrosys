@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // Verifica se o usuário está logado
     if (localStorage.getItem('loggedIn') !== 'true') {
         window.location.href = 'index.html';
@@ -8,19 +8,22 @@ $(document).ready(function() {
     // Carrega a lista de clientes no select
     loadClientSelect();
 
+    //mascara no cep
+    $('#cep').mask('00000-000');
+
     // Evento do botão de logout
-    $('#btnLogout').on('click', function() {
+    $('#btnLogout').on('click', function () {
         localStorage.removeItem('loggedIn');
         window.location.href = 'index.html';
     });
 
     // Evento de mudança no select de clientes
-    $('#clientSelect').on('change', function() {
+    $('#clientSelect').on('change', function () {
         loadAddresses($(this).val());
     });
 
     // Evento do botão novo endereço
-    $('#btnNewAddress').on('click', function() {
+    $('#btnNewAddress').on('click', function () {
         const clienteId = $('#clientSelect').val();
         if (!clienteId) {
             alert('Selecione um cliente primeiro');
@@ -33,8 +36,64 @@ $(document).ready(function() {
         $('#addressModal').modal('show');
     });
 
+    function limpaFormularioCep() {
+        // Limpa valores do formulário de cep.
+        $('#rua').val(),
+        $('#bairro').val(),
+        $('#cidade').val(),
+        $('#estado').val()
+    }
+
+    //Quando o campo cep perde o foco.
+    $("#cep").blur(function () {
+
+        //Nova variável "cep" somente com dígitos.
+        var cep = $(this).val().replace(/\D/g, '');
+
+        //Verifica se campo cep possui valor informado.
+        if (cep != "") {
+
+            //Expressão regular para validar o CEP.
+            var validacep = /^[0-9]{8}$/;
+
+            //Valida o formato do CEP.
+            if (validacep.test(cep)) {
+
+                //Preenche os campos com "..." enquanto consulta webservice.
+                $("#rua").val("...");
+                $("#bairro").val("...");
+                $("#cidade").val("...");
+                $("#estado").val("...");
+                //Consulta o webservice viacep.com.br/
+                $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+
+                    if (!("erro" in dados)) {
+                        //Atualiza os campos com os valores da consulta.
+                        $("#rua").val(dados.logradouro);
+                        $("#bairro").val(dados.bairro);
+                        $("#cidade").val(dados.localidade);
+                        $("#estado").val(dados.uf);
+                    }
+                    else {
+                        //CEP pesquisado não foi encontrado.
+                        limpaFormularioCep();
+                        alert("CEP não encontrado.");
+                    }
+                });
+            }
+            else {
+                //cep é inválido.
+                limpaFormularioCep();
+                alert("Formato de CEP inválido.");
+            }
+        }
+        else {
+            //cep sem valor, limpa formulário.
+            limpaFormularioCep();
+        }
+    });
     // Evento do botão salvar endereço
-    $('#btnSaveAddress').on('click', function() {
+    $('#btnSaveAddress').on('click', function () {
         const address = {
             id: $('#addressId').val(),
             cliente_id: $('#clienteId').val(),
@@ -43,7 +102,6 @@ $(document).ready(function() {
             bairro: $('#bairro').val(),
             cidade: $('#cidade').val(),
             estado: $('#estado').val(),
-            pais: $('#pais').val(),
             principal: $('#principal').is(':checked')
         };
 
@@ -108,7 +166,7 @@ $(document).ready(function() {
         });
 
         // Eventos dos botões de ação
-        $('.edit-address').on('click', function() {
+        $('.edit-address').on('click', function () {
             const id = $(this).data('id');
             const address = addresses.find(a => a.id === id);
             if (address) {
@@ -125,7 +183,7 @@ $(document).ready(function() {
             }
         });
 
-        $('.delete-address').on('click', function() {
+        $('.delete-address').on('click', function () {
             const id = $(this).data('id');
             if (confirm('Tem certeza que deseja excluir este endereço?')) {
                 try {

@@ -1,6 +1,22 @@
 // Inicialização do banco de dados
 let db = null;
 
+function saveToLocalStorage() {
+    if (db) {
+        const data = exportDatabase();
+        localStorage.setItem('agrosysDatabase', data);
+    }
+}
+
+function loadFromLocalStorage() {
+    const data = localStorage.getItem('agrosysDatabase');
+    if (data) {
+        importDatabase(data);
+        return true;
+    }
+    return false;
+}
+
 function initDatabase() {
     // Criação das tabelas se não existirem
     const createTables = `
@@ -36,6 +52,14 @@ function initDatabase() {
     try {
         db = new alasql.Database();
         db.exec(createTables);
+        
+        // Tenta carregar dados do localStorage
+        if (!loadFromLocalStorage()) {
+            console.log('Nenhum dado encontrado no localStorage, banco de dados vazio iniciado');
+        } else {
+            console.log('Dados carregados do localStorage com sucesso');
+        }
+        
         console.log('Banco de dados inicializado com sucesso');
     } catch (error) {
         console.error('Erro ao inicializar banco de dados:', error);
@@ -49,6 +73,7 @@ function createUser(username, password) {
             INSERT INTO users (username, password) 
             VALUES (?, ?)
         `, [username, password]);
+        saveToLocalStorage(); // Salva após modificação
         return result;
     } catch (error) {
         console.error('Erro ao criar usuário:', error);
@@ -76,6 +101,7 @@ function createClient(client) {
             INSERT INTO clients (nome_completo, cpf, data_nascimento, telefone, celular)
             VALUES (?, ?, ?, ?, ?)
         `, [client.nome_completo, client.cpf, client.data_nascimento, client.telefone, client.celular]);
+        saveToLocalStorage(); // Salva após modificação
         return result;
     } catch (error) {
         console.error('Erro ao criar cliente:', error);
@@ -100,6 +126,7 @@ function createAddress(address) {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `, [address.cliente_id, address.cep, address.rua, address.bairro, 
             address.cidade, address.estado, address.pais, address.principal]);
+        saveToLocalStorage(); // Salva após modificação
         return result;
     } catch (error) {
         console.error('Erro ao criar endereço:', error);
@@ -175,5 +202,6 @@ function importDatabase(jsonData) {
     }
 }
 
-// Inicializa o banco de dados quando o script é carregado
-initDatabase(); 
+if(db === null){
+    initDatabase(); 
+}

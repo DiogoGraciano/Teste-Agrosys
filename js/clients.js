@@ -14,6 +14,11 @@ $(document).ready(function() {
         window.location.href = 'index.html';
     });
 
+    // Mascara nos campos
+    $('#cpf').mask('000.000.000-00', {reverse: true});
+    $('#telefone').mask('(00) 0000-0000');
+    $('#celular').mask('(00) 00000-0000');
+
     // Evento do botão novo cliente
     $('#btnNewClient').on('click', function() {
         $('#clientId').val('');

@@ -2,7 +2,6 @@ INSTRUÇÕES PARA EXECUÇÃO DO PROJETO
 
 1. REQUISITOS
    - Navegador web moderno (Chrome, Firefox, Edge, etc.)
-   - Servidor web local (como XAMPP, WAMP, etc.)
 
 2. INSTALAÇÃO
    - Extraia todos os arquivos do projeto para uma pasta dentro do diretório do seu servidor web
@@ -17,9 +16,7 @@ INSTRUÇÕES PARA EXECUÇÃO DO PROJETO
      * js/addresses.js
 
 3. EXECUÇÃO
-   - Inicie seu servidor web local
-   - Abra o navegador e acesse o endereço local do projeto (ex: http://localhost/nome-da-pasta)
-   - A aplicação será carregada automaticamente
+   - abra o arquivo index.html no seu navegador
 
 4. USO INICIAL
    - Na primeira execução, crie um usuário através do botão "Cadastrar" na tela de login
