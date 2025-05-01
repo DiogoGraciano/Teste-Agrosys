@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,10 @@
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
+    <div class="row">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary col-md-12 px-4">
             <a class="navbar-brand" href="#">Agrosys</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -31,32 +33,31 @@
                     </li>
                 </ul>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Clientes</h2>
-            <button class="btn btn-primary" id="btnNewClient">Novo Cliente</button>
-        </div>
+        <div class="container mt-4 px-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 col-md-12">
+                <h2>Clientes</h2>
+                <button class="btn btn-primary" id="btnNewClient">Novo Cliente</button>
+            </div>
 
-        <div class="table-responsive">
-            <table class="table table-striped" id="clientsTable">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>Data Nascimento</th>
-                        <th>Telefone</th>
-                        <th>Celular</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped" id="clientsTable">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Data Nascimento</th>
+                            <th>Telefone</th>
+                            <th>Celular</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     </div>
-
     <!-- Modal de Cadastro/Edição de Cliente -->
     <div class="modal fade" id="clientModal" tabindex="-1">
         <div class="modal-dialog">
@@ -106,4 +107,5 @@
     <script src="js/database.js"></script>
     <script src="js/clients.js"></script>
 </body>
-</html> 
+
+</html>

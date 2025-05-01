@@ -68,17 +68,26 @@ $(document).ready(function() {
         }
     });
 
-    // Evento do input de arquivo para importação
     $('#dbFile').on('change', function(e) {
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                if (importDatabase(e.target.result)) {
-                    alert('Banco de dados importado com sucesso');
-                    $('#settingsModal').modal('hide');
+                const fileName = file.name.toLowerCase();
+                if (fileName.endsWith('.sql')) {
+                    if (importDatabaseSql(e.target.result)) {
+                        alert('Banco de dados SQL importado com sucesso');
+                        $('#settingsModal').modal('hide');
+                    } else {
+                        alert('Erro ao importar banco de dados SQL');
+                    }
                 } else {
-                    alert('Erro ao importar banco de dados');
+                    if (importDatabaseJson(e.target.result)) {
+                        alert('Banco de dados importado com sucesso');
+                        $('#settingsModal').modal('hide');
+                    } else {
+                        alert('Erro ao importar banco de dados');
+                    }
                 }
             };
             reader.readAsText(file);

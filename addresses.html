@@ -12,8 +12,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
+    <div class="row">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary col-md-12 px-4">
             <a class="navbar-brand" href="#">Agrosys</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -33,39 +33,38 @@
                     </li>
                 </ul>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Endereços</h2>
-            <div>
-                <select class="form-select me-2" id="clientSelect" style="display: inline-block; width: auto;">
-                    <option value="">Selecione um cliente</option>
-                </select>
-                <button class="btn btn-primary" id="btnNewAddress">Novo Endereço</button>
+        <div class="container mt-4 px-4 col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Endereços</h2>
+                <div>
+                    <select class="form-select me-2" id="clientSelect" style="display: inline-block; width: auto;">
+                        <option value="">Selecione um cliente</option>
+                    </select>
+                    <button class="btn btn-primary" id="btnNewAddress">Novo Endereço</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped" id="addressesTable">
+                    <thead>
+                        <tr>
+                            <th>CEP</th>
+                            <th>Rua</th>
+                            <th>Bairro</th>
+                            <th>Cidade</th>
+                            <th>Estado</th>
+                            <th>País</th>
+                            <th>Principal</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
-
-        <div class="table-responsive">
-            <table class="table table-striped" id="addressesTable">
-                <thead>
-                    <tr>
-                        <th>CEP</th>
-                        <th>Rua</th>
-                        <th>Bairro</th>
-                        <th>Cidade</th>
-                        <th>Estado</th>
-                        <th>País</th>
-                        <th>Principal</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
     </div>
-
     <!-- Modal de Cadastro/Edição de Endereço -->
     <div class="modal fade" id="addressModal" tabindex="-1">
         <div class="modal-dialog">

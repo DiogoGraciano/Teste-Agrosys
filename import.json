@@ -1,0 +1,86 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "username": "Carlos",
+            "password": "987654"
+        },
+        {
+            "id": 2,
+            "username": "Mariana",
+            "password": "123abc"
+        }
+    ],
+    "clients": [
+        {
+            "id": 1,
+            "nome_completo": "Carlos Eduardo Mendes",
+            "cpf": "432.765.890-21",
+            "data_nascimento": "1988-03-15",
+            "telefone": "(11) 3452-7890",
+            "celular": "(11) 98765-4321"
+        },
+        {
+            "id": 2,
+            "nome_completo": "Mariana Costa Santos",
+            "cpf": "765.321.098-54",
+            "data_nascimento": "1992-07-22",
+            "telefone": "(21) 2789-4532",
+            "celular": "(21) 99876-5432"
+        },
+        {
+            "id": 3,
+            "nome_completo": "André Oliveira Lima",
+            "cpf": "234.567.890-12",
+            "data_nascimento": "1975-11-30",
+            "telefone": "(47) 3256-8971",
+            "celular": "(47) 98523-6741"
+        }
+    ],
+    "addresses": [
+        {
+            "id": 1,
+            "cliente_id": 1,
+            "cep": "04523-001",
+            "rua": "Avenida Paulista",
+            "bairro": "Bela Vista",
+            "cidade": "São Paulo",
+            "estado": "SP",
+            "pais": "Brasil",
+            "principal": true
+        },
+        {
+            "id": 2,
+            "cliente_id": 2,
+            "cep": "22250-040",
+            "rua": "Rua Barata Ribeiro",
+            "bairro": "Copacabana",
+            "cidade": "Rio de Janeiro",
+            "estado": "RJ",
+            "pais": "Brasil",
+            "principal": true
+        },
+        {
+            "id": 3,
+            "cliente_id": 2,
+            "cep": "22430-100",
+            "rua": "Avenida Vieira Souto",
+            "bairro": "Ipanema",
+            "cidade": "Rio de Janeiro",
+            "estado": "RJ",
+            "pais": "Brasil",
+            "principal": false
+        },
+        {
+            "id": 4,
+            "cliente_id": 3,
+            "cep": "88330-075",
+            "rua": "Avenida Atlântica",
+            "bairro": "Centro",
+            "cidade": "Balneário Camboriú",
+            "estado": "SC",
+            "pais": "Brasil",
+            "principal": true
+        }
+    ]
+}

@@ -102,10 +102,12 @@ $(document).ready(function () {
             bairro: $('#bairro').val(),
             cidade: $('#cidade').val(),
             estado: $('#estado').val(),
+            pais: $('#pais').val(),
             principal: $('#principal').is(':checked')
         };
 
         if (address.principal) {
+            address.cliente_id = parseInt(address.cliente_id);
             // Se este endereço for principal, remove a marcação dos outros
             try {
                 db.exec('UPDATE addresses SET principal = 0 WHERE cliente_id = ?', [address.cliente_id]);
@@ -187,7 +189,7 @@ $(document).ready(function () {
             const id = $(this).data('id');
             if (confirm('Tem certeza que deseja excluir este endereço?')) {
                 try {
-                    db.exec('DELETE FROM addresses WHERE id = ?', [id]);
+                    deleteAddress(id)
                     loadAddresses(clienteId);
                 } catch (error) {
                     console.error('Erro ao excluir endereço:', error);

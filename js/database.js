@@ -11,7 +11,7 @@ function saveToLocalStorage() {
 function loadFromLocalStorage() {
     const data = localStorage.getItem('agrosysDatabase');
     if (data) {
-        importDatabase(data);
+        importDatabaseJson(data);
         return true;
     }
     return false;
@@ -52,14 +52,14 @@ function initDatabase() {
     try {
         db = new alasql.Database();
         db.exec(createTables);
-        
+
         // Tenta carregar dados do localStorage
         if (!loadFromLocalStorage()) {
             console.log('Nenhum dado encontrado no localStorage, banco de dados vazio iniciado');
         } else {
             console.log('Dados carregados do localStorage com sucesso');
         }
-        
+
         console.log('Banco de dados inicializado com sucesso');
     } catch (error) {
         console.error('Erro ao inicializar banco de dados:', error);
@@ -124,8 +124,8 @@ function createAddress(address) {
         const result = db.exec(`
             INSERT INTO addresses (cliente_id, cep, rua, bairro, cidade, estado, pais, principal)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        `, [address.cliente_id, address.cep, address.rua, address.bairro, 
-            address.cidade, address.estado, address.pais, address.principal]);
+        `, [address.cliente_id, address.cep, address.rua, address.bairro,
+        address.cidade, address.estado, address.pais, address.principal]);
         saveToLocalStorage(); // Salva após modificação
         return result;
     } catch (error) {
@@ -136,10 +136,35 @@ function createAddress(address) {
 
 function getAddresses(cliente_id) {
     try {
+        cliente_id = parseInt(cliente_id);
         return db.exec('SELECT * FROM addresses WHERE cliente_id = ?', [cliente_id]);
     } catch (error) {
         console.error('Erro ao buscar endereços:', error);
         return [];
+    }
+}
+
+function deleteAddress(id) {
+    id = parseInt(id);
+    try {
+        db.exec('DELETE FROM addresses WHERE id = ?', [id]);
+        saveToLocalStorage();
+        return true
+    } catch (error) {
+        console.error('Erro ao criar endereço:', error);
+        return null;
+    }
+}
+
+function deleteClient(id) {
+    id = parseInt(id);
+    try {
+        db.exec('DELETE FROM addresses WHERE cliente_id = ?', [id]);
+        db.exec('DELETE FROM clients WHERE id = ?', [id]);
+        saveToLocalStorage();
+    } catch (error) {
+        console.error('Erro ao criar endereço:', error);
+        return null;
     }
 }
 
@@ -158,43 +183,50 @@ function exportDatabase() {
     }
 }
 
-function importDatabase(jsonData) {
+function importDatabaseJson(jsonData) {
     try {
         const data = JSON.parse(jsonData);
-        
+
         // Limpa as tabelas existentes
         db.exec('DELETE FROM addresses');
         db.exec('DELETE FROM clients');
         db.exec('DELETE FROM users');
-        
+
         // Insere os novos dados
         if (data.users) {
             data.users.forEach(user => {
-                db.exec('INSERT INTO users (username, password) VALUES (?, ?)', 
+                db.exec('INSERT INTO users (username, password) VALUES (?, ?)',
                     [user.username, user.password]);
             });
         }
-        
+
+        // Mapa para armazenar a correspondência entre IDs antigos e novos
+        const clientIdMap = new Map();
+
         if (data.clients) {
             data.clients.forEach(client => {
-                db.exec(`
+                const result = db.exec(`
                     INSERT INTO clients (nome_completo, cpf, data_nascimento, telefone, celular)
                     VALUES (?, ?, ?, ?, ?)
-                `, [client.nome_completo, client.cpf, client.data_nascimento, 
-                    client.telefone, client.celular]);
+                `, [client.nome_completo, client.cpf, client.data_nascimento,
+                client.telefone, client.celular]);
+                clientIdMap.set(client.id, result.insertId);
             });
         }
-        
+
         if (data.addresses) {
             data.addresses.forEach(address => {
-                db.exec(`
-                    INSERT INTO addresses (cliente_id, cep, rua, bairro, cidade, estado, pais, principal)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                `, [address.cliente_id, address.cep, address.rua, address.bairro,
-                    address.cidade, address.estado, address.pais, address.principal]);
+                const newClientId = clientIdMap.get(address.cliente_id);
+                if (newClientId) {
+                    db.exec(`
+                        INSERT INTO addresses (cliente_id, cep, rua, bairro, cidade, estado, pais, principal)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    `, [newClientId, address.cep, address.rua, address.bairro,
+                        address.cidade, address.estado, address.pais, address.principal]);
+                }
             });
         }
-        
+        saveToLocalStorage();
         return true;
     } catch (error) {
         console.error('Erro ao importar banco de dados:', error);
@@ -202,6 +234,22 @@ function importDatabase(jsonData) {
     }
 }
 
-if(db === null){
-    initDatabase(); 
+function importDatabaseSql(sqlData) {
+    try {
+        db.exec('DELETE FROM addresses');
+        db.exec('DELETE FROM clients');
+        db.exec('DELETE FROM users');
+        db.exec('SET FOREIGN_KEYS=OFF');
+        db.exec(sqlData);
+        db.exec('SET FOREIGN_KEYS=ON');
+        saveToLocalStorage();
+        return true
+    } catch (error) {
+        console.error('Erro ao importar banco de dados:', error);
+        return false;
+    }
+}
+
+if (db === null) {
+    initDatabase();
 }

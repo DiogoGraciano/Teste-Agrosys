@@ -88,7 +88,7 @@ $(document).ready(function() {
             const id = $(this).data('id');
             if (confirm('Tem certeza que deseja excluir este cliente?')) {
                 try {
-                    db.exec('DELETE FROM clients WHERE id = ?', [id]);
+                    deleteClient(id)
                     loadClients();
                 } catch (error) {
                     console.error('Erro ao excluir cliente:', error);

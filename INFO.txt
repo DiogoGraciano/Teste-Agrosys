@@ -17,6 +17,8 @@ INSTRUÇÕES PARA EXECUÇÃO DO PROJETO
 
 3. EXECUÇÃO
    - abra o arquivo index.html no seu navegador
+   – caso prefira, você pode importar o arquivo import.json ou import.sql usando o botão Configurações na tela de login. 
+     (No meu navegador está dando erro de chave estrangeira, não descobri o motivo)
 
 4. USO INICIAL
    - Na primeira execução, crie um usuário através do botão "Cadastrar" na tela de login
@@ -31,5 +33,3 @@ INSTRUÇÕES PARA EXECUÇÃO DO PROJETO
 
 6. OBSERVAÇÕES
    - O banco de dados é armazenado localmente no navegador
-   - Para preservar os dados, utilize a função de exportação antes de fechar o navegador
-   - Para restaurar dados, utilize a função de importação na tela de configurações 
